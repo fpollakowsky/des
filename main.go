@@ -6,14 +6,13 @@ import (
 )
 
 func main() {
-	pt := "123456ABCD132536"
-	key := "AABB09182736CCDD"
+	pt := "ABCD12344321DCBA"
+	key := "AABBCCDD11223344"
 
 	println("Key Generation")
 	key, rkb, rk := keyGen(key)
 	println(key)
 
-	println("Encryption")
 	cipherText := binToHex(encrypt(pt, rkb, rk))
 	fmt.Println("Final: ", cipherText)
 }
@@ -24,11 +23,14 @@ func encrypt(s string, rkb []string, rk []string) string {
 	// initial permutation
 	pt = permute(pt, initialPerm, 64)
 	ptHex := binToHex(pt)
-	fmt.Println("Initial Permutation: " + ptHex)
+	fmt.Println("Initial Permutation \n" + ptHex)
 
 	// split
 	left, right := splitStringInMiddle(pt)
+	fmt.Println("Left: ", binToHex(left))
+	fmt.Println("Right: ", binToHex(right))
 
+	println("Round: ", 0, " ", "left", "     ", "right", "    ", "rk[i]")
 	for i := 0; i < 16; i++ {
 		// Expansion D-box: Expanding the 32 bits data into 48 bits
 		rightExpanded := permute(right, expD, 48)
